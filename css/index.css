@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+:root {
+  --background-color: #fff4fa;
+  --text-color: #222;
+  --button-bg-color: #ff6392;
+  --button-text-color: #fff;
+  --button-border-color: #ff98c2;
+  --link-color: #ff6392;
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --button-bg-color: #1e1e1e;
+  --button-text-color: #ffffff;
+  --button-border-color: #333333;
+  --link-color: #bb86fc;
+}
+
+.light-mode {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-bg-color: #f0f0f0;
+  --button-text-color: #000000;
+  --button-border-color: #cccccc;
+  --link-color: #1a0dab;
+}
+
+.galaxy-theme {
+  --background-color: #0b0033;
+  --text-color: #ffffff;
+  --button-bg-color: #1a0033;
+  --button-text-color: #ffffff;
+  --button-border-color: #330066;
+  --link-color: #ff66ff;
+  --gradient-start: #330066;
+  --gradient-end: #ff66ff;
+}
+
+.red-nebula-theme {
+  --background-color: #330000;
+  --text-color: #ffffff;
+  --button-bg-color: #660000;
+  --button-text-color: #ffffff;
+  --button-border-color: #990000;
+  --link-color: #ff3333;
+  --gradient-start: #ff3300;
+  --gradient-end: #ffcc00;
+}
+
+.blue-nebula-theme {
+  --background-color: #000033;
+  --text-color: #ffffff;
+  --button-bg-color: #000066;
+  --button-text-color: #ffffff;
+  --button-border-color: #000099;
+  --link-color: #3399ff;
+  --gradient-start: #0000cc;
+  --gradient-end: #00ccff;
+}
+
+.bubblegum-theme {
+  --background-color: #ffe6f0;
+  --text-color: #330033;
+  --button-bg-color: #ff99cc;
+  --button-text-color: #330033;
+  --button-border-color: #ff66b2;
+  --link-color: #cc0066;
+  --gradient-start: #ff66b2;
+  --gradient-end: #ffccff;
+}
+
+.forest-theme {
+  --background-color: #e6ffe6;
+  --text-color: #003300;
+  --button-bg-color: #99cc99;
+  --button-text-color: #003300;
+  --button-border-color: #66b266;
+  --link-color: #006600;
+  --gradient-start: #006600;
+  --gradient-end: #66ff66;
+}
+
+.citrus-theme {
+  --background-color: #fffde7;
+  --text-color: #426b1f;
+  --button-bg-color: #ffe066;
+  --button-text-color: #fff;
+  --button-border-color: #ffa600;
+  --link-color: #70c744;
+  --gradient-start: #ffcc00;
+  --gradient-end: #70c744;
+}
+
+.pastel-theme {
+  --background-color: #f0e6ff;
+  --text-color: #330033;
+  --button-bg-color: #cc99ff;
+  --button-text-color: #330033;
+  --button-border-color: #b266ff;
+  --link-color: #8000ff;
+  --gradient-start: #b266ff;
+  --gradient-end: #ff99ff;
+}
+
+.coffee-theme {
+  --background-color: #f3e5d5;
+  --text-color: #4b2e1e;
+  --button-bg-color: #d2b48c;
+  --button-text-color: #4b2e1e;
+  --button-border-color: #a67c52;
+  --link-color: #8b4513;
+  --gradient-start: #a67c52;
+  --gradient-end: #d2b48c;
+}
+
+.rainbow-theme {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-bg-color: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+  --button-text-color: #ffffff;
+  --button-border-color: #cccccc;
+  --link-color: #ff00ff;
+  background-size: 300% 300%;
+  animation: rainbowGradient 5s ease infinite;
+}
+
+@keyframes rainbowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.super-dark {
+  --background-color: #1e1e2c;
+  --text-color: #e6e6f0;
+  --button-bg-color: #2a2a42;
+  --button-text-color: #e6e6f0;
+  --button-border-color: #7a7a9e;
+  --link-color: #9d9dc9;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  cursor: url(Nekopara-Normal-Select.cur);
+}
+
+.myButton:hover,
+.css-button-arrow--rose:hover,
+.imagebutton:hover {
+  cursor: url(Nekopara-Link-Select-NEW.cur), pointer;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 680px;
+}
+
+.myButton {
+  font-family: 'Press Start 2P', monospace, Arial, sans-serif !important;
+  font-size: 16px;
+  color: var(--button-text-color);
+  background: var(--button-bg-color);
+  border: 2px solid var(--button-border-color);
+  padding: 12px 24px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px var(--button-border-color, #ffb6c1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 12px 10px 18px 10px;
+}
+
+.myButton:hover {
+  background: var(--link-color);
+  color: var(--background-color);
+  box-shadow: 0 0 16px var(--button-border-color, #ffb6c1);
+  transform: scale(1.06);
+  border-color: var(--link-color);
+}
+
+@media (max-width: 600px) {
+  .button-row {
+    max-width: 99vw;
+    gap: 8px;
+  }
+
+  .css-button-arrow--rose {
+    min-width: 82px;
+    font-size: 0.97em;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 36px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+}
+
+.logo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
+
+.scroll {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.scroll div {
+  display: flex;
+  white-space: nowrap;
+  animation: animate var(--t) linear infinite;
+}
+
+.scroll div:nth-child(2) {
+  animation: animate2 var(--t) linear infinite;
+}
+
+@keyframes animate {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes animate2 {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-200%); }
+}
+
+.scroll div span {
+  display: inline-flex;
+  margin: 5px 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  background: var(--button-bg-color);
+  color: var(--button-text-color);
+  transition: 0.3s;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+}
+
+.scroll div span:hover {
+  background: var(--link-color);
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .scroll {
+    padding: 6px 0;
+  }
+
+  .scroll div span {
+    margin: 4px 6px;
+    padding: 5px 10px;
+    font-size: clamp(0.6rem, 3vw, 0.85rem);
+  }
+}

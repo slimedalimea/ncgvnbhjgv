@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+:root {
+  --background-color: #fff4fa;
+  --text-color: #222;
+  --button-bg-color: #ff6392;
+  --button-text-color: #fff;
+  --button-border-color: #ff98c2;
+  --link-color: #ff6392;
+}
+
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --button-bg-color: #1e1e1e;
+  --button-text-color: #ffffff;
+  --button-border-color: #333333;
+  --link-color: #bb86fc;
+}
+.light-mode {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-bg-color: #f0f0f0;
+  --button-text-color: #000000;
+  --button-border-color: #cccccc;
+  --link-color: #1a0dab;
+}
+.galaxy-theme {
+  --background-color: #0b0033;
+  --text-color: #ffffff;
+  --button-bg-color: #1a0033;
+  --button-text-color: #ffffff;
+  --button-border-color: #330066;
+  --link-color: #ff66ff;
+}
+.red-nebula-theme {
+  --background-color: #330000;
+  --text-color: #ffffff;
+  --button-bg-color: #660000;
+  --button-text-color: #ffffff;
+  --button-border-color: #990000;
+  --link-color: #ff3333;
+}
+.blue-nebula-theme {
+  --background-color: #000033;
+  --text-color: #ffffff;
+  --button-bg-color: #000066;
+  --button-text-color: #ffffff;
+  --button-border-color: #000099;
+  --link-color: #3399ff;
+}
+.bubblegum-theme {
+  --background-color: #ffe6f0;
+  --text-color: #330033;
+  --button-bg-color: #ff99cc;
+  --button-text-color: #330033;
+  --button-border-color: #ff66b2;
+  --link-color: #cc0066;
+}
+.forest-theme {
+  --background-color: #e6ffe6;
+  --text-color: #003300;
+  --button-bg-color: #99cc99;
+  --button-text-color: #003300;
+  --button-border-color: #66b266;
+  --link-color: #006600;
+}
+.citrus-theme {
+  --background-color: #fffde7;
+  --text-color: #426b1f;
+  --button-bg-color: #ffe066;
+  --button-text-color: #fff;
+  --button-border-color: #ffa600;
+  --link-color: #70c744;
+}
+.pastel-theme {
+  --background-color: #f0e6ff;
+  --text-color: #330033;
+  --button-bg-color: #cc99ff;
+  --button-text-color: #330033;
+  --button-border-color: #b266ff;
+  --link-color: #8000ff;
+}
+.coffee-theme {
+  --background-color: #f3e5d5;
+  --text-color: #4b2e1e;
+  --button-bg-color: #d2b48c;
+  --button-text-color: #4b2e1e;
+  --button-border-color: #a67c52;
+  --link-color: #8b4513;
+}
+.rainbow-theme {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-bg-color: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+  --button-text-color: #ffffff;
+  --button-border-color: #cccccc;
+  --link-color: #ff00ff;
+  background-size: 300% 300%;
+  animation: rainbowGradient 5s ease infinite;
+}
+@keyframes rainbowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.super-dark {
+  --background-color: #1e1e2c; 
+  --text-color: #e6e6f0; 
+  --button-bg-color: #2a2a42; 
+  --button-text-color: #e6e6f0; 
+  --button-border-color: #7a7a9e; 
+  --link-color: #9d9dc9;
+}
+
+
+html, body {
+  min-height: 100vh;
+  width: 100%;
+  font-family: system-ui, sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: url(Nekopara-Normal-Select.cur), auto;
+}
+
+
+.myButton:hover,
+.css-button-arrow--rose:hover {
+  cursor: url(Nekopara-Link-Select-NEW.cur), pointer;
+}
+
+h2 {
+  margin: 20px 10px 10px 10px;
+  font-size: 1.13rem;
+  text-align: center;
+  color: var(--text-color);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+img {
+  margin: 16px 10px;
+  max-width: 97vw;
+  width: 500px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+  border: 2px solid var(--button-border-color);
+  transition: box-shadow 0.22s, border 0.22s;
+}
+img:hover {
+  box-shadow: 0 4px 28px 0 rgba(0,0,0,0.16);
+  border-color: var(--link-color);
+}
+
+@media (max-width: 600px) {
+  img {
+    width: 98vw;
+    height: auto;
+    max-width: 98vw;
+    margin: 9px 2vw;
+  }
+  h2 {
+    font-size: 1.01rem;
+    max-width: 97vw;
+  }
+}
+
+.myButton {
+ font-family: 'Press Start 2P', monospace, Arial, sans-serif !important;
+  font-size: 16px;
+  color: var(--button-text-color);
+  background: var(--button-bg-color);
+  border: 2px solid var(--button-border-color);
+  padding: 12px 24px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px var(--button-border-color, #ffb6c1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 12px 10px 18px 10px;
+}
+
+.myButton:hover {
+  background: var(--link-color);
+  color: var(--background-color);
+  box-shadow: 0 0 16px var(--button-border-color, #ffb6c1);
+  transform: scale(1.06);
+  border-color: var(--link-color);
+}

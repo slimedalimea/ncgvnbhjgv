@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Leave a Review</title>
+<link href="../css/index.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<script src="../loading.js"></script>
+</head>
+<body>
+<div class="container">
+<h2 style="font-family: 'Press Start 2P', monospace;">Leave a Review</h2>
+<iframe frameborder="0" height="820" marginheight="0" marginwidth="0" src="https://docs.google.com/forms/d/e/1FAIpQLSff9PCugn9JRJpDLt8DMg_kQPgjAbiTecUQi9GZUOQ3vrEPeg/viewform?embedded=true" style="background:#fff4fa;border-radius:12px;box-shadow:0 2px 16px #e6a4be77;max-width:97vw;" width="600">
+      Loading…
+    </iframe>
+<div class="button-row">
+<a class="myButton" href="../index.html">Home</a>
+<a class="myButton" href="reviewsheet.html">Reviews</a>
+</div>
+</div>
+<script>
+  
+    const body = document.body;
+    const themeClasses = [
+      'light-mode','dark-mode','galaxy-theme','red-nebula-theme',
+      'blue-nebula-theme','bubblegum-theme','forest-theme','citrus-theme',
+      'coffee-theme','pastel-theme','rainbow-theme', 'super-dark'
+    ];
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && themeClasses.includes(savedTheme)) {
+      body.classList.add(savedTheme);
+    } else {
+      body.classList.add('light-mode');
+    }
+  </script>
+</body>
+</html>

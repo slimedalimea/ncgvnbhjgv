@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snake Game</title>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Press Start 2P', Arial, sans-serif;
+            background: #202c26;
+            color: #faffdd;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #gameCanvas {
+            margin-top: 32px;
+            background: #181825;
+            border: 6px solid #48e07d;
+            box-shadow: 0 2px 24px #000c;
+        }
+        p {
+            margin: 24px auto 16px auto;
+            max-width: 400px;
+            font-size: 0.95em;
+        }
+        .button-bar {
+            margin: 24px auto;
+        }
+        button {
+            font-family: 'Press Start 2P', Arial, sans-serif;
+            background: #48e07d;
+            color: #222;
+            border: 4px solid #000;
+            box-shadow: 2px 2px #2229;
+            padding: 14px 28px;
+            margin: 0 12px;
+            font-size: 1em;
+            border-radius: 0;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.13s, color 0.13s;
+        }
+        button:hover {
+            background: #80f9a2;
+        }
+        a {
+            display: block;
+            margin: 18px auto 0 auto;
+            color: #48e07d;
+            text-decoration: none;
+            font-size: 1.08em;
+        }
+        footer {
+            margin: 42px 0 12px 0;
+            color: #98b99c;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<canvas height="400" id="gameCanvas" width="400"></canvas>
+<p>Use the arrow keys to control the snake. Eat the red apples to grow longer. Avoid running into yourself or the walls!</p>
+<div class="button-bar">
+<button onclick="location.reload();">Restart Game</button>
+<button onclick="window.location.href='index.html';">Home</button>
+<button onclick="window.location.href='settings.html';">Settings</button>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

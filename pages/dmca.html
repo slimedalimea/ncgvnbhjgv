@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Document</title>
+<link href="../css/index.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+<h1 class="title">DMCA Takedown Instructions &amp; Info</h1>
+<div class="subtitle">If you own/created a game here in the game catalog and would like for it to be removed from the site, please email us at themarzlibrary@outlook.com, or join our discord and create a ticket.
+We will only remove the game if you give sufficient evidence that the game you requested to take down belongs to you, or you are requesting on behalf of the owner. 
+You must provide the following information:
+- Email Address
+- Game Name
+- Your Name/Online Alias
+- Proof of Ownership (screenshots from developer dashboard, inside the game engine, etc.)
+If all proof of ownership is sufficent, we will gladly take down the game from The Marz Library and any other sites we own containing the game. Otherwise, we may email you back requesting more proof of ownership.</div>
+
+<a class="myButton" href="../index.html">Home</a>
+<a class="myButton" href="https://discord.gg/marzlib">Our Discord</a>
+<script>
+    const body = document.body;
+    const themeClasses = [
+      'light-mode',
+      'dark-mode',
+      'galaxy-theme',
+      'red-nebula-theme',
+      'blue-nebula-theme',
+      'bubblegum-theme',
+      'forest-theme',
+      'citrus-theme',
+      'coffee-theme',
+      'pastel-theme',
+      'rainbow-theme',
+      'super-dark',
+    ];
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && themeClasses.includes(savedTheme)) {
+      body.classList.add(savedTheme);
+    } else {
+      body.classList.add('light-mode');
+    }
+  </script>
+</div></body>
+</html>

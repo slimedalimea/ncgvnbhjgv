@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<meta charset="utf-8"/>
+<title>Settings</title>
+<link href="../css/settings.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+    }
+  </style>
+<script src="../loading.js"></script>
+<body>
+<div class="theme-selector-container">
+<label for="theme-select">Choose Your Theme:</label>
+<select id="theme-select">
+<option value="light-mode">Light</option>
+<option value="dark-mode">Dark</option>
+<option value="galaxy-theme">Galaxy</option>
+<option value="red-nebula-theme">Red Nebula</option>
+<option value="blue-nebula-theme">Blue Nebula</option>
+<option value="bubblegum-theme">Bubblegum</option>
+<option value="forest-theme">Forest</option>
+<option value="citrus-theme">Citrus</option>
+<option value="pastel-theme">Pastel</option>
+<option value="coffee-theme">Coffee</option>
+<option value="rainbow-theme">Rainbow</option>
+<option value="super-dark">Super Dark</option>
+</select>
+</div>
+<div class="button-row">
+<a class="myButton" href="../index.html">Home</a>
+<a class="myButton" href="games.html">Gаmеs</a>
+</div>
+<script>
+    const select = document.getElementById('theme-select');
+    const body = document.body;
+
+  
+    const themeClasses = [
+      'light-mode','dark-mode','galaxy-theme','red-nebula-theme',
+      'blue-nebula-theme','bubblegum-theme','forest-theme','citrus-theme', 'pastel-theme', 'coffee-theme', 'rainbow-theme', 'super-dark'
+    
+    ];
+
+  
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme && themeClasses.includes(savedTheme)) {
+      body.classList.add(savedTheme);
+      select.value = savedTheme;
+    } else {
+      body.classList.add('light-mode'); 
+      select.value = 'light-mode';
+    }
+
+    select.addEventListener('change', function() {
+      themeClasses.forEach(cls => body.classList.remove(cls));
+      body.classList.add(this.value);
+      localStorage.setItem('theme', this.value);
+    });
+  </script>
+<script type="text/javascript">
+    atOptions = {
+        'key' : '9333ee430933a9c700a5a1cb09940829',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+    };
+</script>
+<script src="//www.highperformanceformat.com/9333ee430933a9c700a5a1cb09940829/invoke.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Snake Game - Settings</title>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+        :root {
+            --pixel-bg: #202c26;
+            --pixel-panel: #2e4133;
+            --pixel-btn: #48e07d;
+            --pixel-btn-hover: #80f9a2;
+            --pixel-text: #faffdd;
+            --pixel-accent: #fa435a;
+        }
+        body {
+            font-family: 'Press Start 2P', Arial, sans-serif;
+            background: var(--pixel-bg);
+            color: var(--pixel-text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .settings-container {
+            max-width: 420px;
+            margin: 48px auto;
+            background: var(--pixel-panel);
+            border: 8px solid var(--pixel-accent);
+            border-radius: 0;
+            box-shadow: 0 0 0 8px #111, 0 8px 32px #000c;
+            padding: 32px 32px 24px 32px;
+        }
+        h1 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 32px;
+            color: var(--pixel-btn);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px #222;
+            text-align: center;
+        }
+        .button-group, .mode-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            font-family: 'Press Start 2P', Arial, sans-serif;
+            font-size: 13px;
+            padding: 14px 0;
+            width: 170px;
+            border: 4px solid #000;
+            background: var(--pixel-btn);
+            color: #181818;
+            text-shadow: 1px 1px #fff, 2px 2px #3333;
+            border-radius: 0;
+            box-shadow: 0 0 0 2px #fff5, 0 2px 8px #000a;
+            cursor: pointer;
+            transition: background .14s, color .14s;
+        }
+        button:hover, button:focus {
+            background: var(--pixel-btn-hover);
+            color: #120a20;
+        }
+        .mode-toggle button {
+            width: 100px;
+        }
+        .pixel-slider {
+            width: 220px;
+            height: 18px;
+            background: #181825;
+            border: 4px solid var(--pixel-accent);
+            margin: 0 auto 18px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            box-shadow: 2px 2px #111a;
+        }
+        .pixel-slider .pixel-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--pixel-btn);
+            border: 3px solid #000;
+            position: absolute;
+            top: -3px;
+            cursor: pointer;
+            transition: background .12s;
+        }
+        .pixel-slider .pixel-thumb:active {
+            background: var(--pixel-btn-hover);
+        }
+        .slider-label {
+            text-align: center;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .color-sample {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-left: 8px;
+            border: 2px solid #fff;
+            box-shadow: 2px 2px #3339;
+            vertical-align: middle;
+        }
+        .footer {
+            text-align: center;
+            margin: 28px 0 0 0;
+            font-size: 10px;
+            color: #a4e7f5;
+            text-shadow: 1px 1px #000, 0 2px #222;
+        }
+    </style>
+</head>
+<body>
+<div class="settings-container">
+<h1>SNAKE GAME SETTINGS</h1>
+<div class="mode-toggle">
+<button onclick="toggleTheme('dark')">DARK</button>
+<button onclick="toggleTheme('light')">LIGHT</button>
+</div>
+<div class="slider-label">SPEED: <span id="speedValue">5</span></div>
+<div class="pixel-slider" id="speedSlider">
+<div class="pixel-thumb" id="speedThumb"></div>
+</div>
+<div class="slider-label">VOLUME</div>
+<div class="pixel-slider" id="volSlider">
+<div class="pixel-thumb" id="volThumb"></div>
+</div>
+<div class="slider-label">
+            SNAKE COLOR:
+            <span class="color-sample" id="snakeColorSample" style="background: #48e07d"></span>
+</div>
+<div class="button-group">
+<button onclick="cycleSnakeColor()">CHANGE COLOR</button>
+<button onclick="cycleBgColor()">BG COLOR</button>
+</div>
+<div class="button-group">
+<button onclick="resetSettings()">RESET</button>
+<button onclick="window.location.href='index.html'">GO BACK</button>
+</div>
+</div>
+<script>
+ 
+        function toggleTheme(theme) {
+            if (theme === 'dark') {
+                document.body.style.setProperty('--pixel-bg', '#202c26');
+                document.body.style.setProperty('--pixel-panel', '#2e4133');
+                document.body.style.setProperty('--pixel-btn', '#48e07d');
+                document.body.style.setProperty('--pixel-btn-hover', '#80f9a2');
+                document.body.style.setProperty('--pixel-text', '#faffdd');
+            } else {
+                document.body.style.setProperty('--pixel-bg', '#f0faf4');
+                document.body.style.setProperty('--pixel-panel', '#e2eede');
+                document.body.style.setProperty('--pixel-btn', '#2ebc67');
+                document.body.style.setProperty('--pixel-btn-hover', '#80f9a2');
+                document.body.style.setProperty('--pixel-text', '#2e3a2b');
+            }
+            localStorage.setItem('snake-theme', theme);
+        }
+        window.onload = function() {
+            const t = localStorage.getItem('snake-theme') || 'dark';
+            toggleTheme(t);
+         
+            setSpeed(currentSpeed);
+            setVolume(currentVolume);
+            updateSnakeColor();
+            updateBgColor();
+        };
+
+       
+        const speedSlider = document.getElementById('speedSlider');
+        const speedThumb = document.getElementById('speedThumb');
+        const speedValue = document.getElementById('speedValue');
+        let draggingSpeed = false;
+        let currentSpeed = Number(localStorage.getItem('snake-speed')) || 5;
+
+        function setSpeed(val) {
+            currentSpeed = Math.round(Math.max(1, Math.min(10, val)));
+            speedValue.innerText = currentSpeed;
+            const x = ((currentSpeed-1)/9) * (speedSlider.offsetWidth - speedThumb.offsetWidth);
+            speedThumb.style.left = x + "px";
+            localStorage.setItem('snake-speed', currentSpeed);
+        }
+        speedThumb.addEventListener('mousedown', function(e) {
+            draggingSpeed = true;
+            e.preventDefault();
+        });
+        window.addEventListener('mousemove', function(e) {
+            if (!draggingSpeed) return;
+            const rect = speedSlider.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            x = Math.max(0, Math.min(x, speedSlider.offsetWidth - speedThumb.offsetWidth));
+            speedThumb.style.left = x + "px";
+            let v = 1 + Math.round(9 * (x / (speedSlider.offsetWidth - speedThumb.offsetWidth)));
+            setSpeed(v);
+        });
+        window.addEventListener('mouseup', function() {
+            draggingSpeed = false;
+        });
+
+      
+        const volSlider = document.getElementById('volSlider');
+        const volThumb = document.getElementById('volThumb');
+        let draggingVol = false;
+        let currentVolume = Number(localStorage.getItem('snake-volume')) || 0.5;
+
+        function setVolume(val) {
+            currentVolume = Math.max(0, Math.min(1, val));
+            const x = currentVolume * (volSlider.offsetWidth - volThumb.offsetWidth);
+            volThumb.style.left = x + "px";
+            localStorage.setItem('snake-volume', currentVolume);
+        }
+        volThumb.addEventListener('mousedown', function(e) {
+            draggingVol = true;
+            e.preventDefault();
+        });
+        window.addEventListener('mousemove', function(e) {
+            if (!draggingVol) return;
+            const rect = volSlider.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            x = Math.max(0, Math.min(x, volSlider.offsetWidth - volThumb.offsetWidth));
+            volThumb.style.left = x + "px";
+            setVolume(x / (volSlider.offsetWidth - volThumb.offsetWidth));
+        });
+        window.addEventListener('mouseup', function() {
+            draggingVol = false;
+        });
+
+     
+        const snakeColors = ['#48e07d', '#31c5be', '#f7d038', '#fa435a', '#8c4fa3', '#fa8334', '#2274a5'];
+        let snakeColorIdx = Number(localStorage.getItem('snake-color-idx')) || 0;
+        function updateSnakeColor() {
+            document.getElementById('snakeColorSample').style.background = snakeColors[snakeColorIdx];
+            localStorage.setItem('snake-color-idx', snakeColorIdx);
+        }
+        function cycleSnakeColor() {
+            snakeColorIdx = (snakeColorIdx + 1) % snakeColors.length;
+            updateSnakeColor();
+        }
+
+  
+        const bgColors = ['#202c26', '#22223b', '#282a36', '#1a2a32', '#252525', '#1e1e1e'];
+        let bgColorIdx = Number(localStorage.getItem('snake-bg-idx')) || 0;
+        function updateBgColor() {
+            document.body.style.setProperty('--pixel-bg', bgColors[bgColorIdx]);
+            localStorage.setItem('snake-bg-idx', bgColorIdx);
+        }
+        function cycleBgColor() {
+            bgColorIdx = (bgColorIdx + 1) % bgColors.length;
+            updateBgColor();
+        }
+
+      
+        function goHome() {
+    window.location.href = "index.html";
+}
+
+
+       
+        function resetSettings() {
+            if (confirm('Reset settings to default?')) {
+                setSpeed(5);
+                setVolume(0.5);
+                snakeColorIdx = 0;
+                updateSnakeColor();
+                bgColorIdx = 0;
+                updateBgColor();
+                toggleTheme('dark');
+                localStorage.setItem('snake-theme', 'dark');
+            }
+        }
+    </script>
+</body>
+</html>

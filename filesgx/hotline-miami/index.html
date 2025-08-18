@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="no-cache" http-equiv="pragma"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta charset="utf-8"/>
+<title>hotline miami</title>
+<style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            image-rendering: optimizeSpeed;
+            -webkit-interpolation-mode: nearest-neighbor;
+            -ms-touch-action: none;
+        }
+
+        div.gm4html5_div_class {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+        }
+
+        div.gm4html5_login {
+            padding: 20px;
+            position: absolute;
+            border: solid 2px #000000;
+            background-color: #404040;
+            color:#00ff00;
+            border-radius: 15px;
+            box-shadow: #101010 20px 20px 40px;
+        }
+
+        div.gm4html5_cancel_button {
+            float: right;
+        }
+
+        div.gm4html5_login_button {
+            float: left;
+        }
+
+        div.gm4html5_login_header {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="gm4html5_div_class" id="gm4html5_div_id">
+<canvas id="canvas"></canvas>
+</div>
+<script src="../../../../../../../../../filesgx/hotline-miami/html5game/HotlineMiami__q_ea2e47d7.js" type="text/javascript"></script>
+<script>
+        function resizeCanvas() {
+            const canvas = document.getElementById("canvas");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        window.addEventListener("load", function() {
+            resizeCanvas();
+            GameMaker_Init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snake Browser Port</title>
+<link href="style.css" rel="stylesheet"/>
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<style>
+      body, h1, h2, nav, button, .play-button {
+    font-family: 'Press Start 2P', Arial, sans-serif;
+}
+
+body {
+    background: #202c26;
+    color: #faffdd;
+    margin: 0;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 32px 0 10px 0;
+}
+
+h1 {
+    color: #48e07d;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #111b;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #f7d038;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-top: 0;
+    text-shadow: 1px 1px #444a;
+}
+
+nav {
+    margin: 0 0 26px 0;
+}
+
+nav a {
+    margin: 0 14px;
+    color: #faffdd;
+    text-decoration: none;
+    font-size: 1em;
+    border-bottom: 3px solid transparent;
+    padding: 0 3px 3px 3px;
+    transition: border .18s, color .18s, background .18s;
+    border-radius: 3px;
+}
+
+nav a:hover, nav a:focus {
+    border-bottom: 3px solid #48e07d;
+    color: #48e07d;
+    background: #232b2b;
+}
+
+main {
+    max-width: 620px;
+    margin: 32px auto 0 auto;
+    background: #282a36;
+    padding: 44px 38px 34px 38px;
+    border-radius: 0;
+    box-shadow: 0 2px 28px #181e3b77, 0 0 0 8px #48e07d44;
+    border: 6px solid #48e07d;
+}
+
+.play-button {
+    display: inline-block;
+    background: #48e07d;
+    color: #181818;
+    text-decoration: none;
+    padding: 20px 44px;
+    margin-top: 24px;
+    font-size: 1.15rem;
+    border: 4px solid #181818;
+    border-radius: 0;
+    box-shadow: 2px 2px #2229;
+    letter-spacing: 2px;
+    transition: background .14s, color .14s, transform .12s;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff4;
+    outline: none;
+}
+
+.play-button:hover, .play-button:focus {
+    background: #80f9a2;
+    color: #222;
+    transform: translateY(-3px) scale(1.04);
+    border-color: #f7d038;
+}
+
+ul {
+    margin-left: 18px;
+    font-size: 1em;
+    color: #faffddcc;
+    line-height: 1.7;
+    padding-left: 0;
+    list-style: square inside;
+}
+
+footer {
+    text-align: center;
+    margin: 40px 0 0 0;
+    font-size: 1em;
+    color: #98b99c;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px #202c2666;
+}
+
+@media (max-width: 700px) {
+    main {
+        max-width: 98vw;
+        padding: 22px 4vw 22px 4vw;
+        box-shadow: none;
+        border-width: 4px;
+    }
+    h1 {
+        font-size: 1.2rem;
+    }
+    .play-button {
+        font-size: 1em;
+        padding: 14px 10vw;
+    }
+}
+
+    </style>
+</head>
+<body>
+<header>
+<h1>marz's snake!</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="game.html">Play Game</a>
+<a href="settings.html">Settings</a>
+</nav>
+</header>
+<main>
+<section id="intro">
+<h2>Welcome to the Snake Browser Port!</h2>
+<p>Enjoy the classic Snake game right in your web browser. Use the arrow keys to control the snake and try to eat as many apples as you can without running into yourself or the walls!</p>
+<a class="play-button" href="game.html">Play Now</a>
+</section>
+<section id="features">
+<h2>Features</h2>
+<ul>
+<li>Classic Snake gameplay</li>
+<li>Responsive design for all devices</li>
+<li>High score tracking</li>
+<li>Customizable settings</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

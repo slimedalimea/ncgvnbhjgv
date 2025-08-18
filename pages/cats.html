@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<title>Cat Therapy - The Marz Library</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../css/cats.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap" rel="stylesheet"/>
+<script src="../loading.js"></script>
+<style>
+    body {
+      font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+    }
+    #cat-img {
+      max-width: 400px;
+      max-height: 400px;
+      display: block;
+      margin: 2em auto;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px #4444;
+      cursor: pointer;
+      transition: box-shadow 0.18s;
+    }
+    #cat-img:hover {
+      box-shadow: 0 12px 36px #1115;
+    }
+  </style>
+</head>
+<body>
+<h2>School can be a pain, we get it.. So here’s some cats!</h2>
+<h3>Click a picture to skip to a new one.</h3>
+<img alt="Random Cat!" id="cat-img" src="" title="Click for another cat"/>
+<a class="myButton" href="../index.html">Home</a>
+<script>
+    const body = document.body;
+    const themeClasses = [
+      'light-mode','dark-mode','galaxy-theme','red-nebula-theme',
+      'blue-nebula-theme','bubblegum-theme','forest-theme','citrus-theme',
+      'coffee-theme','pastel-theme','rainbow-theme', 'super-dark'
+    ];
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && themeClasses.includes(savedTheme)) {
+      body.classList.add(savedTheme);
+    } else {
+      body.classList.add('light-mode');
+    }
+
+    const catImg = document.getElementById('cat-img');
+    async function loadCat() {
+      catImg.src = '';
+      catImg.alt = "Loading...";
+      try {
+        const res = await fetch('https://api.thecatapi.com/v1/images/search');
+        const data = await res.json();
+        catImg.src = data[0].url;
+        catImg.alt = "Random cat photo";
+      } catch (e) {
+        catImg.alt = "Couldn't load cat image 🐱";
+      }
+    }
+    catImg.onclick = loadCat;
+    loadCat();
+  </script>
+<script type="text/javascript">
+    atOptions = {
+        'key' : '9333ee430933a9c700a5a1cb09940829',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+    };
+</script>
+<script src="//www.highperformanceformat.com/9333ee430933a9c700a5a1cb09940829/invoke.js" type="text/javascript"></script>
+</body>
+</html>
