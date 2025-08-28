@@ -1,13 +1,11 @@
--- save+reuse key + simple custom UI (no UI lib) + self-destroy before loading
 
 -- === config ===
 local DISCORD_CODE = "KazG3SxY8N"
 local LUARMOR_URL  = "https://api.luarmor.net/files/v3/loaders/931b47780b67616011da2614ce91ad19.lua"
+local GET_KEY_URL  = "https://ads.luarmor.net/get_key?for=goose_hub-tnwSKKlblAKT"
 
--- === persistence helpers (file if available, else getgenv fallback) ===
-local FOLDER = "AccessPanel"
-local FILE   = FOLDER.."/last_key.txt"
-
+-- === persistence helpers ===
+local FOLDER, FILE = "AccessPanel", "AccessPanel/last_key.txt"
 local has_fs = typeof(isfile)=="function" and typeof(writefile)=="function" and typeof(readfile)=="function"
 local has_mkdir = typeof(makefolder)=="function"
 
@@ -58,7 +56,6 @@ local function mkButton(parent, text, size, pos)
 end
 
 local function destroy_all()
-	-- nuke both CoreGui and PlayerGui instances named "AccessPanel"
 	for _,v in ipairs({
 		CoreGui:FindFirstChild("AccessPanel"),
 		game.Players.LocalPlayer:FindFirstChild("PlayerGui") and game.Players.LocalPlayer.PlayerGui:FindFirstChild("AccessPanel")
@@ -69,8 +66,8 @@ end
 
 -- === main frame ===
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 340, 0, 210)
-frame.Position = UDim2.new(0.5, -170, 0.5, -105)
+frame.Size = UDim2.new(0, 340, 0, 250) -- taller to fit the extra button
+frame.Position = UDim2.new(0.5, -170, 0.5, -125)
 frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
 frame.BorderSizePixel = 0
 frame.Parent = gui
@@ -95,14 +92,16 @@ input.TextColor3 = Color3.fromRGB(255, 255, 255)
 input.Font = Enum.Font.SourceSans
 input.TextSize = 20
 input.ClearTextOnFocus = false
-input.Text = "" -- (no placeholder as requested)
+input.Text = "" -- no placeholder
 input.Parent = frame
 rounded(input, 8)
 
-local submit = mkButton(frame, "Submit", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 100))
+local submit = mkButton(frame, "Submit",   UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 100))
 submit.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 
-local discordBtn = mkButton(frame, "Join our Discord", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 144))
+local getKeyBtn = mkButton(frame, "Get Key", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 144))
+
+local discordBtn = mkButton(frame, "Join our Discord", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 188))
 
 local note = Instance.new("TextLabel")
 note.Size = UDim2.new(1, -20, 0, 26)
@@ -115,7 +114,7 @@ note.TextWrapped = true
 note.TextColor3 = Color3.fromRGB(200, 200, 200)
 note.Parent = frame
 
--- === "Use last key?" prompt (shown only if we have one) ===
+-- === "Use last key?" prompt ===
 local savedKey = load_saved_key()
 local reusePrompt
 
@@ -141,19 +140,19 @@ if type(savedKey) == "string" and #savedKey > 0 then
 	local yes = mkButton(reusePrompt, "Yes", UDim2.new(0.5, -6, 0, 34), UDim2.new(0, 0, 0, 50))
 	yes.BackgroundColor3 = Color3.fromRGB(65, 145, 90)
 
-	local no = mkButton(reusePrompt, "No", UDim2.new(0.5, -6, 0, 34), UDim2.new(0.5, 6, 0, 50))
+	local no  = mkButton(reusePrompt, "No",  UDim2.new(0.5, -6, 0, 34), UDim2.new(0.5, 6, 0, 50))
 	no.BackgroundColor3 = Color3.fromRGB(145, 65, 65)
 
-	-- Hide the normal input/buttons until user decides
+	-- Hide normal input/submit until decision. Keep Get Key visible.
 	input.Visible = false
 	submit.Visible = false
-	discordBtn.Position = UDim2.new(0, 20, 0, 156) -- push down a bit while prompt is visible
+	getKeyBtn.Position = UDim2.new(0, 20, 0, 156)
+	discordBtn.Position = UDim2.new(0, 20, 0, 200)
 
 	yes.MouseButton1Click:Connect(function()
-		-- Use saved key immediately
 		local key = savedKey
-		save_key(key) -- re-save just in case
-		destroy_all() -- destroy UI first, always
+		save_key(key)
+		destroy_all()
 		task.defer(function()
 			getgenv().script_key = key
 			local ok, err = pcall(function()
@@ -164,16 +163,17 @@ if type(savedKey) == "string" and #savedKey > 0 then
 	end)
 
 	no.MouseButton1Click:Connect(function()
-		-- Dismiss the prompt and show manual input
 		reusePrompt:Destroy()
 		input.Visible = true
 		submit.Visible = true
-		discordBtn.Position = UDim2.new(0, 20, 0, 144)
+		getKeyBtn.Position = UDim2.new(0, 20, 0, 144)
+		discordBtn.Position = UDim2.new(0, 20, 0, 188)
 	end)
 end
 
 -- === interactions ===
 local submitting = false
+
 submit.MouseButton1Click:Connect(function()
 	if submitting then return end
 	submitting = true
@@ -186,8 +186,8 @@ submit.MouseButton1Click:Connect(function()
 		return
 	end
 
-	save_key(key)       -- persist it
-	destroy_all()       -- remove UI immediately
+	save_key(key)
+	destroy_all()
 
 	task.defer(function()
 		getgenv().script_key = key
@@ -198,8 +198,14 @@ submit.MouseButton1Click:Connect(function()
 	end)
 end)
 
+getKeyBtn.MouseButton1Click:Connect(function()
+	if setclipboard then setclipboard(GET_KEY_URL) end
+	title.Text = "Key link copied!"
+	title.TextColor3 = Color3.fromRGB(100, 255, 100)
+end)
+
 discordBtn.MouseButton1Click:Connect(function()
-	if setclipboard then
-		setclipboard("https://discord.gg/" .. DISCORD_CODE)
-	end
+	if setclipboard then setclipboard("https://discord.gg/" .. DISCORD_CODE) end
+	title.Text = "Discord invite copied!"
+	title.TextColor3 = Color3.fromRGB(100, 255, 100)
 end)
