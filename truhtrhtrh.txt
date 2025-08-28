@@ -1,5 +1,4 @@
 
--- === config ===
 local DISCORD_CODE = "KazG3SxY8N"
 local LUARMOR_URL  = "https://api.luarmor.net/files/v3/loaders/931b47780b67616011da2614ce91ad19.lua"
 local GET_KEY_URL  = "https://ads.luarmor.net/get_key?for=goose_hub-tnwSKKlblAKT"
