@@ -1,25 +1,84 @@
--- config
-local DISCORD_CODE = "KazG3SxY8N"
-local LUARMOR_URL = "https://api.luarmor.net/files/v3/loaders/931b47780b67616011da2614ce91ad19.lua"
+-- save+reuse key + simple custom UI (no UI lib) + self-destroy before loading
 
--- ui setup
-local plr = game.Players.LocalPlayer
+-- === config ===
+local DISCORD_CODE = "KazG3SxY8N"
+local LUARMOR_URL  = "https://api.luarmor.net/files/v3/loaders/931b47780b67616011da2614ce91ad19.lua"
+
+-- === persistence helpers (file if available, else getgenv fallback) ===
+local FOLDER = "AccessPanel"
+local FILE   = FOLDER.."/last_key.txt"
+
+local has_fs = typeof(isfile)=="function" and typeof(writefile)=="function" and typeof(readfile)=="function"
+local has_mkdir = typeof(makefolder)=="function"
+
+local function load_saved_key()
+	if has_fs and isfile(FILE) then
+		local ok, data = pcall(readfile, FILE)
+		if ok and data and #data > 0 then return data end
+	end
+	return rawget(getgenv(), "_AP_last_key")
+end
+
+local function save_key(k)
+	if type(k) ~= "string" or #k == 0 then return end
+	if has_fs then
+		if has_mkdir then pcall(makefolder, FOLDER) end
+		pcall(writefile, FILE, k)
+	end
+	getgenv()._AP_last_key = k
+end
+
+-- === GUI base ===
+local CoreGui = game:GetService("CoreGui")
 local gui = Instance.new("ScreenGui")
 gui.Name = "AccessPanel"
+gui.IgnoreGuiInset = true
 gui.ResetOnSpawn = false
-gui.Parent = plr:WaitForChild("PlayerGui")
+gui.Parent = CoreGui
 
--- frame
+local function rounded(obj, r)
+	local uic = Instance.new("UICorner")
+	uic.CornerRadius = UDim.new(0, r or 8)
+	uic.Parent = obj
+end
+
+local function mkButton(parent, text, size, pos)
+	local b = Instance.new("TextButton")
+	b.Size = size
+	b.Position = pos
+	b.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	b.TextColor3 = Color3.fromRGB(255, 255, 255)
+	b.Font = Enum.Font.SourceSansBold
+	b.TextSize = 18
+	b.Text = text
+	b.AutoButtonColor = true
+	b.Parent = parent
+	rounded(b, 8)
+	return b
+end
+
+local function destroy_all()
+	-- nuke both CoreGui and PlayerGui instances named "AccessPanel"
+	for _,v in ipairs({
+		CoreGui:FindFirstChild("AccessPanel"),
+		game.Players.LocalPlayer:FindFirstChild("PlayerGui") and game.Players.LocalPlayer.PlayerGui:FindFirstChild("AccessPanel")
+	}) do
+		if v then pcall(function() v:Destroy() end) end
+	end
+end
+
+-- === main frame ===
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 320, 0, 200)
-frame.Position = UDim2.new(0.5, -160, 0.5, -100)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.Size = UDim2.new(0, 340, 0, 210)
+frame.Position = UDim2.new(0.5, -170, 0.5, -105)
+frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
 frame.BorderSizePixel = 0
 frame.Parent = gui
+rounded(frame, 10)
 
--- title
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 40)
+title.Size = UDim2.new(1, -20, 0, 40)
+title.Position = UDim2.new(0, 10, 0, 6)
 title.BackgroundTransparency = 1
 title.Text = "Access Panel"
 title.Font = Enum.Font.SourceSansBold
@@ -27,67 +86,120 @@ title.TextSize = 22
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Parent = frame
 
--- input
+-- input row
 local input = Instance.new("TextBox")
-input.PlaceholderText = "Paste your key here"
-input.Size = UDim2.new(1, -40, 0, 35)
-input.Position = UDim2.new(0, 20, 0, 50)
+input.Size = UDim2.new(1, -40, 0, 36)
+input.Position = UDim2.new(0, 20, 0, 56)
 input.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 input.TextColor3 = Color3.fromRGB(255, 255, 255)
 input.Font = Enum.Font.SourceSans
 input.TextSize = 20
+input.ClearTextOnFocus = false
+input.Text = "" -- (no placeholder as requested)
 input.Parent = frame
+rounded(input, 8)
 
--- submit button
-local submit = Instance.new("TextButton")
-submit.Text = "Submit"
-submit.Size = UDim2.new(1, -40, 0, 35)
-submit.Position = UDim2.new(0, 20, 0, 95)
+local submit = mkButton(frame, "Submit", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 100))
 submit.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
-submit.TextColor3 = Color3.fromRGB(255, 255, 255)
-submit.Font = Enum.Font.SourceSansBold
-submit.TextSize = 20
-submit.Parent = frame
 
--- discord button
-local discordBtn = Instance.new("TextButton")
-discordBtn.Text = "Join our Discord"
-discordBtn.Size = UDim2.new(1, -40, 0, 35)
-discordBtn.Position = UDim2.new(0, 20, 0, 140)
-discordBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-discordBtn.Font = Enum.Font.SourceSans
-discordBtn.TextSize = 18
-discordBtn.Parent = frame
+local discordBtn = mkButton(frame, "Join our Discord", UDim2.new(1, -40, 0, 36), UDim2.new(0, 20, 0, 144))
 
--- label under discord button
-local label = Instance.new("TextLabel")
-label.Size = UDim2.new(1, -20, 0, 30)
-label.Position = UDim2.new(0, 10, 1, -25)
-label.BackgroundTransparency = 1
-label.Text = "Make a ticket in Discord for a free 30m trial key."
-label.Font = Enum.Font.SourceSansItalic
-label.TextSize = 16
-label.TextWrapped = true
-label.TextColor3 = Color3.fromRGB(200, 200, 200)
-label.Parent = frame
+local note = Instance.new("TextLabel")
+note.Size = UDim2.new(1, -20, 0, 26)
+note.Position = UDim2.new(0, 10, 1, -28)
+note.BackgroundTransparency = 1
+note.Text = "Make a ticket for a free 30m trial key."
+note.Font = Enum.Font.SourceSansItalic
+note.TextSize = 15
+note.TextWrapped = true
+note.TextColor3 = Color3.fromRGB(200, 200, 200)
+note.Parent = frame
 
--- logic
+-- === "Use last key?" prompt (shown only if we have one) ===
+local savedKey = load_saved_key()
+local reusePrompt
+
+if type(savedKey) == "string" and #savedKey > 0 then
+	reusePrompt = Instance.new("Frame")
+	reusePrompt.Size = UDim2.new(1, -40, 0, 90)
+	reusePrompt.Position = UDim2.new(0, 20, 0, 56)
+	reusePrompt.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+	reusePrompt.BorderSizePixel = 0
+	reusePrompt.Parent = frame
+	rounded(reusePrompt, 10)
+
+	local msg = Instance.new("TextLabel")
+	msg.Size = UDim2.new(1, -16, 0, 40)
+	msg.Position = UDim2.new(0, 8, 0, 8)
+	msg.BackgroundTransparency = 1
+	msg.Text = "Use last key?"
+	msg.Font = Enum.Font.SourceSans
+	msg.TextSize = 20
+	msg.TextColor3 = Color3.fromRGB(255, 255, 255)
+	msg.Parent = reusePrompt
+
+	local yes = mkButton(reusePrompt, "Yes", UDim2.new(0.5, -6, 0, 34), UDim2.new(0, 0, 0, 50))
+	yes.BackgroundColor3 = Color3.fromRGB(65, 145, 90)
+
+	local no = mkButton(reusePrompt, "No", UDim2.new(0.5, -6, 0, 34), UDim2.new(0.5, 6, 0, 50))
+	no.BackgroundColor3 = Color3.fromRGB(145, 65, 65)
+
+	-- Hide the normal input/buttons until user decides
+	input.Visible = false
+	submit.Visible = false
+	discordBtn.Position = UDim2.new(0, 20, 0, 156) -- push down a bit while prompt is visible
+
+	yes.MouseButton1Click:Connect(function()
+		-- Use saved key immediately
+		local key = savedKey
+		save_key(key) -- re-save just in case
+		destroy_all() -- destroy UI first, always
+		task.defer(function()
+			getgenv().script_key = key
+			local ok, err = pcall(function()
+				loadstring(game:HttpGet(LUARMOR_URL))()
+			end)
+			if not ok then warn("[AccessPanel] Loader error:", err) end
+		end)
+	end)
+
+	no.MouseButton1Click:Connect(function()
+		-- Dismiss the prompt and show manual input
+		reusePrompt:Destroy()
+		input.Visible = true
+		submit.Visible = true
+		discordBtn.Position = UDim2.new(0, 20, 0, 144)
+	end)
+end
+
+-- === interactions ===
+local submitting = false
 submit.MouseButton1Click:Connect(function()
-	if input.Text == "" then
+	if submitting then return end
+	submitting = true
+
+	local key = input.Text
+	if key == "" then
 		title.Text = "Please enter a key!"
 		title.TextColor3 = Color3.fromRGB(255, 100, 100)
+		submitting = false
 		return
 	end
-	getgenv().script_key = input.Text
-	loadstring(game:HttpGet(LUARMOR_URL))()
-	gui:Destroy()
+
+	save_key(key)       -- persist it
+	destroy_all()       -- remove UI immediately
+
+	task.defer(function()
+		getgenv().script_key = key
+		local ok, err = pcall(function()
+			loadstring(game:HttpGet(LUARMOR_URL))()
+		end)
+		if not ok then warn("[AccessPanel] Loader error:", err) end
+	end)
 end)
 
 discordBtn.MouseButton1Click:Connect(function()
 	if setclipboard then
 		setclipboard("https://discord.gg/" .. DISCORD_CODE)
 	end
-	title.Text = "Discord invite copied!"
-	title.TextColor3 = Color3.fromRGB(100, 255, 100)
 end)
