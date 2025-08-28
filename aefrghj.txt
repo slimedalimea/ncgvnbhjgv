@@ -1,1 +1,1 @@
-local s=game:HttpGet("https://raw.githubusercontent.com/slimedalimea/ncgvnbhjgv/refs/heads/main/hngfhjfg.txt");local f=loadstring(s);setfenv(f,getfenv());f()
+local s=game:HttpGet("https://raw.githubusercontent.com/slimedalimea/ncgvnbhjgv/refs/heads/main/ahngfhjfg.txt");local f=loadstring(s);setfenv(f,getfenv());f()
