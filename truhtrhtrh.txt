@@ -1,80 +1,93 @@
--- load Rayfield
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
 -- config
-local DISCORD_CODE = "KazG3SxY8N" -- e.g. "abcdEFG"
+local DISCORD_CODE = "KazG3SxY8N"
 local LUARMOR_URL = "https://api.luarmor.net/files/v3/loaders/931b47780b67616011da2614ce91ad19.lua"
 
--- window
-local Window = Rayfield:CreateWindow({
-    Name = "Access Panel",
-    LoadingTitle = "Loading",
-    LoadingSubtitle = "Please wait",
-    ConfigurationSaving = {
-        Enabled = false,
-    },
-    Discord = {
-        Enabled = true,
-        Invite = DISCORD_CODE,
-        RememberJoins = false
-    },
-    KeySystem = false
-})
+-- ui setup
+local plr = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "AccessPanel"
+gui.ResetOnSpawn = false
+gui.Parent = plr:WaitForChild("PlayerGui")
 
--- tab
-local Tab = Window:CreateTab("Key", 6031097225) -- icon id works on mobile too
+-- frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 320, 0, 200)
+frame.Position = UDim2.new(0.5, -160, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = gui
 
--- store key here
-local typedKey = ""
+-- title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+title.Text = "Access Panel"
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 22
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Parent = frame
 
--- input field
-Tab:CreateInput({
-    Name = "Your Key",
-    PlaceholderText = "Paste your key here",
-    RemoveTextAfterFocusLost = false,
-    Callback = function(Text)
-        typedKey = Text
-    end,
-})
+-- input
+local input = Instance.new("TextBox")
+input.PlaceholderText = "Paste your key here"
+input.Size = UDim2.new(1, -40, 0, 35)
+input.Position = UDim2.new(0, 20, 0, 50)
+input.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+input.TextColor3 = Color3.fromRGB(255, 255, 255)
+input.Font = Enum.Font.SourceSans
+input.TextSize = 20
+input.Parent = frame
 
 -- submit button
-Tab:CreateButton({
-    Name = "Submit",
-    Callback = function()
-        if typedKey == "" then
-            Rayfield:Notify({
-                Title = "Key Required",
-                Content = "Please paste a key first.",
-                Duration = 4
-            })
-            return
-        end
-        getgenv().script_key = typedKey
-        loadstring(game:HttpGet(LUARMOR_URL))()
-        Rayfield:Destroy()
-    end,
-})
-
--- divider
-Tab:CreateSection("Other")
+local submit = Instance.new("TextButton")
+submit.Text = "Submit"
+submit.Size = UDim2.new(1, -40, 0, 35)
+submit.Position = UDim2.new(0, 20, 0, 95)
+submit.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+submit.TextColor3 = Color3.fromRGB(255, 255, 255)
+submit.Font = Enum.Font.SourceSansBold
+submit.TextSize = 20
+submit.Parent = frame
 
 -- discord button
-Tab:CreateButton({
-    Name = "Join our Discord",
-    Callback = function()
-        if setclipboard then
-            setclipboard("https://discord.gg/" .. DISCORD_CODE)
-        end
-        Rayfield:Notify({
-            Title = "Discord",
-            Content = "Invite copied to clipboard.",
-            Duration = 4
-        })
-    end,
-})
+local discordBtn = Instance.new("TextButton")
+discordBtn.Text = "Join our Discord"
+discordBtn.Size = UDim2.new(1, -40, 0, 35)
+discordBtn.Position = UDim2.new(0, 20, 0, 140)
+discordBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+discordBtn.Font = Enum.Font.SourceSans
+discordBtn.TextSize = 18
+discordBtn.Parent = frame
 
--- label under button
-Tab:CreateParagraph({
-    Title = "Need a Key?",
-    Content = "Make a ticket in Discord if you want a free 30 minute trial key."
-})
+-- label under discord button
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, -20, 0, 30)
+label.Position = UDim2.new(0, 10, 1, -25)
+label.BackgroundTransparency = 1
+label.Text = "Make a ticket in Discord for a free 30m trial key."
+label.Font = Enum.Font.SourceSansItalic
+label.TextSize = 16
+label.TextWrapped = true
+label.TextColor3 = Color3.fromRGB(200, 200, 200)
+label.Parent = frame
+
+-- logic
+submit.MouseButton1Click:Connect(function()
+	if input.Text == "" then
+		title.Text = "Please enter a key!"
+		title.TextColor3 = Color3.fromRGB(255, 100, 100)
+		return
+	end
+	getgenv().script_key = input.Text
+	loadstring(game:HttpGet(LUARMOR_URL))()
+	gui:Destroy()
+end)
+
+discordBtn.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard("https://discord.gg/" .. DISCORD_CODE)
+	end
+	title.Text = "Discord invite copied!"
+	title.TextColor3 = Color3.fromRGB(100, 255, 100)
+end)
